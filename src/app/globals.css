@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+html { background: #05070d; }
+body {
+  @apply bg-midnight-950 font-sans text-parchment antialiased;
+  background-image: radial-gradient(1200px 500px at 50% -10%, rgba(193, 154, 74, 0.09), transparent 60%);
+  min-height: 100vh;
+}
+:focus-visible { outline: 2px solid #d4b66c; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
