@@ -15,3 +15,13 @@ body {
 }
 :focus-visible { outline: 2px solid #d4b66c; outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* game HUD motion */
+@keyframes wi-pop { from { transform: scale(0.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes wi-flash { 0% { background-color: rgba(212, 182, 108, 0.32); } 100% { background-color: transparent; } }
+@keyframes wi-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes wi-draw { from { stroke-dashoffset: 3000; } to { stroke-dashoffset: 0; } }
+.wi-pop { animation: wi-pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.wi-flash { animation: wi-flash 1.8s ease-out; }
+.wi-in { animation: wi-in 0.35s ease-out both; }
+.wi-draw { stroke-dasharray: 3000; animation: wi-draw 1.4s ease-out both; }

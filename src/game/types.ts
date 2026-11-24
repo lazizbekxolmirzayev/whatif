@@ -31,17 +31,87 @@ export interface Site {
   lat: number
   lng: number
   blurb: string
+  /** where the map label sits relative to the marker, to keep nearby labels apart */
+  labelAt?: 'above' | 'below' | 'left' | 'right'
 }
 
 export type Effect =
   | { type: 'control'; territory: string; to: FactionId }
   | { type: 'stat'; stat: StatId; delta: number }
   | { type: 'flag'; flag: string }
+  | { type: 'var'; id: string; to: string }
+  /** conditional effect: applied only if the requirement holds at that moment */
+  | { type: 'when'; if: Requirement; then: Effect[] }
 
 export interface Requirement {
   flags?: string[]
   notFlags?: string[]
   stat?: { id: StatId; min: number }
+  /** each listed world variable must currently hold one of the given option ids */
+  vars?: Record<string, string[]>
+  /** every decision so far followed documented history */
+  allHistorical?: boolean
+}
+
+/* ---------- World state model ---------- */
+export type VarCategory = 'country' | 'political' | 'economy' | 'technology' | 'population' | 'figure' | 'relation'
+export type Tone = 'good' | 'bad' | 'neutral'
+
+export interface VarOption {
+  id: string
+  label: string
+  tone?: Tone
+  /** location this option points at on the map (e.g. which city is the capital) */
+  siteId?: string
+}
+
+/**
+ * A qualitative world variable. Values are authored states, not measurements: the scenario only
+ * tracks what its sources support, and every change comes from an explicit effect.
+ */
+export interface WorldVar {
+  id: string
+  label: string
+  category: VarCategory
+  options: VarOption[]
+  initial: string
+  note?: string
+  siteId?: string
+  /** for figures: who they are and their faction */
+  figure?: { faction: FactionId; role: string }
+  /** figures with this option id are not shown (not yet on the stage) */
+  hiddenWhen?: string
+}
+
+export interface StatMeta {
+  label: string
+  category: VarCategory
+  note: string
+}
+
+/** A dated entry in a timeline. key aligns the "same" event across timelines for comparison. */
+export interface ChronicleSeed {
+  key: string
+  year: number
+  date: string
+  title: string
+  siteId?: string
+}
+export interface ChronicleEntry extends ChronicleSeed {
+  kind: Kind
+  /** a historical choice taken after the timeline had already diverged */
+  echo: boolean
+  /** index of the decision that produced it; -1 for background entries before the first decision */
+  step: number
+  nodeId: string | null
+}
+
+export interface Ending {
+  id: string
+  title: string
+  kind: Kind
+  text: string
+  when?: Requirement
 }
 
 export interface Caption {
@@ -97,6 +167,8 @@ export interface Outcome {
   cinematic: CinematicSpec
   media?: MediaRef
   endYear: number
+  /** dated entries this outcome adds to the timeline */
+  chronicle: ChronicleSeed[]
 }
 
 export interface NextRule {
@@ -128,6 +200,10 @@ export interface DecisionNode {
   variants?: { flag: string; text: string }[]
   question: string
   choices: Choice[]
+  /** the passage of time before this decision: applied when the story reaches the node */
+  enter?: { year?: number; label: string; effects: Effect[] }
+  /** what reaching this node depends on, shown to the player */
+  dependsOn?: string
 }
 
 export interface Scenario {
@@ -145,6 +221,12 @@ export interface Scenario {
   sources: Record<string, SourceRef>
   /** timeline ticks for documented dates, shown as neutral reference marks */
   anchors: { year: number; label: string }[]
+  statMeta: Record<StatId, StatMeta>
+  vars: WorldVar[]
+  /** documented background entries before the first decision */
+  prelude: ChronicleSeed[]
+  /** evaluated in order on an ended state; the last entry should have no condition */
+  endings: Ending[]
 }
 
 export interface Step {
@@ -152,6 +234,8 @@ export interface Step {
   choiceId: string
   kind: Kind
   year: number
+  /** true once this timeline has left documented history (at this step or earlier) */
+  diverged: boolean
 }
 
 export interface WorldState {
@@ -160,11 +244,16 @@ export interface WorldState {
   control: Record<string, FactionId>
   flags: Record<string, true>
   stats: Stats
+  vars: Record<string, string>
   history: Step[]
 }
 
 export interface ApplyResult {
   state: WorldState
+  /** state after the choice's own effects, before the next node's `enter` effects */
+  afterChoice: WorldState
+  /** the node the story moved on to, if any */
+  entered: DecisionNode | null
   node: DecisionNode
   choice: Choice
   outcome: Outcome

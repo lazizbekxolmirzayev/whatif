@@ -83,10 +83,10 @@ for (const sc of SCENARIOS) {
   })
 
   t('exactly one historical choice per decision; classification matches summary()', () => {
-    const onlyAlternate = new Set(['siege-choice']) // reachable only through fictional branches
+    const onlyAlternate = new Set(['siege-choice', 'anatolia-1405']) // reachable only through fictional branches
     for (const node of Object.values(sc.nodes)) assert.equal(node.choices.filter((c) => c.historical).length, onlyAlternate.has(node.id) ? 0 : 1, node.id)
     const hist = replay(sc, ['fight', 'mehmed', 'walls-fall']).state
-    assert.deepEqual(summarize(hist), { decisions: 3, fictional: 0, historical: 3 })
+    assert.deepEqual(summarize(hist), { decisions: 3, fictional: 0, historical: 3, diverged: false })
     const alt = replay(sc, ['withdraw', 'resume']).state
     assert.equal(summarize(alt).fictional, 2)
   })
@@ -105,6 +105,12 @@ for (const sc of SCENARIOS) {
         o.cinematic.captions.forEach((cp) => assert.ok(cp.from >= 0 && cp.to <= 1 && cp.from < cp.to))
         assert.equal(o.media, undefined, 'no outcome may ship a fabricated video')
         c.next.forEach((r) => assert.ok(r.goto === null || sc.nodes[r.goto], `${c.id} -> ${r.goto}`))
+        assert.ok(o.chronicle.length >= 1, `${c.id} needs dated timeline entries`)
+        for (const e of o.chronicle) {
+          assert.ok(e.key && e.title && e.date && Number.isInteger(e.year), c.id)
+          assert.ok(e.year >= sc.startYear && e.year <= o.endYear + 50, `${c.id} ${e.key} year`)
+          if (e.siteId) assert.ok(sc.sites.some((x) => x.id === e.siteId), `${c.id} ${e.siteId}`)
+        }
       }
     }
   })

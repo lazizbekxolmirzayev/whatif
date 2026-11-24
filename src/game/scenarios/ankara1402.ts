@@ -1,4 +1,4 @@
-import type { Caption, Choice, Scenario, SourceRef } from '../types.ts'
+import type { Caption, Choice, Ending, Scenario, SourceRef, StatId, StatMeta, WorldVar } from '../types.ts'
 
 /**
  * "Ankara 1402: The Sultan's Choice" — vertical slice.
@@ -44,6 +44,18 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: 35 },
       { type: 'stat', stat: 'stability', delta: -30 },
       { type: 'flag', flag: 'bayezidCaptured' },
+      { type: 'var', id: 'ottomans', to: 'shattered' },
+      { type: 'var', id: 'timurids', to: 'dominant' },
+      { type: 'var', id: 'beyliks', to: 'restored' },
+      { type: 'var', id: 'succession', to: 'contested' },
+      { type: 'var', id: 'straits', to: 'reopened' },
+      { type: 'var', id: 'anatolia-land', to: 'ravaged' },
+      { type: 'var', id: 'bayezid', to: 'dead' },
+      { type: 'var', id: 'timur', to: 'withdrawn' },
+      { type: 'var', id: 'suleyman', to: 'rival' },
+      { type: 'var', id: 'rel-byz', to: 'peace' },
+      { type: 'var', id: 'rel-tim', to: 'recognition' },
+      { type: 'var', id: 'byzantium', to: 'relieved' },
     ],
     outcome: {
       title: 'The Sultan is taken',
@@ -63,6 +75,13 @@ const choices = {
         'This is what happened. The later story that Timur kept Bayezid in an iron cage is doubted by many historians and is not reliably documented. Casualty numbers in the sources are uncertain, and the extent to which the Anatolian defections decided the battle is debated.',
       sources: ['manz', 'imber', 'finkel', 'clavijo', 'yazdi'],
       endYear: 1403,
+      chronicle: [
+        { key: 'ankara', year: 1402, date: '28 July 1402', title: 'Timur defeats Bayezid I at Ankara', siteId: 'ankara' },
+        { key: 'smyrna', year: 1402, date: 'December 1402', title: 'Timur takes Smyrna from the Knights Hospitaller' },
+        { key: 'bayezid', year: 1403, date: 'March 1403', title: 'Bayezid I dies in captivity' },
+        { key: 'beyliks', year: 1403, date: '1402–1403', title: 'Timur restores the Anatolian principalities' },
+        { key: 'treaty', year: 1403, date: '1403', title: 'Süleyman’s treaty eases the pressure on Constantinople', siteId: 'constantinople' },
+      ],
       cinematic: {
         template: 'battle',
         terrain: 'steppe',
@@ -99,6 +118,10 @@ const choices = {
       { type: 'stat', stat: 'stability', delta: -10 },
       { type: 'flag', flag: 'armyIntact' },
       { type: 'flag', flag: 'sultanFree' },
+      { type: 'var', id: 'ottomans', to: 'humbled' },
+      { type: 'var', id: 'timurids', to: 'dominant' },
+      { type: 'var', id: 'beyliks', to: 'restored' },
+      { type: 'var', id: 'anatolia-land', to: 'ravaged' },
     ],
     outcome: {
       title: 'The army that was not spent',
@@ -117,6 +140,10 @@ const choices = {
         'Fiction. In reality Bayezid fought, and was captured. Whether he could have crossed the straits with his army intact, and whether Timur would have let him, is unknowable. ' + FICTION_NOTE,
       sources: ['manz', 'imber'],
       endYear: 1403,
+      chronicle: [
+        { key: 'ankara', year: 1402, date: '1402', title: 'Bayezid refuses battle and withdraws to Europe', siteId: 'ankara' },
+        { key: 'beyliks', year: 1403, date: '1402–1403', title: 'Timur restores the Anatolian principalities' },
+      ],
       cinematic: {
         template: 'battle',
         terrain: 'steppe',
@@ -146,6 +173,13 @@ const choices = {
       { type: 'stat', stat: 'stability', delta: -10 },
       { type: 'flag', flag: 'armyIntact' },
       { type: 'flag', flag: 'sultanFree' },
+      { type: 'var', id: 'ottomans', to: 'humbled' },
+      { type: 'var', id: 'timurids', to: 'withdrawn' },
+      { type: 'var', id: 'timur', to: 'withdrawn' },
+      { type: 'var', id: 'beyliks', to: 'restored' },
+      { type: 'var', id: 'bayezid', to: 'humbled' },
+      { type: 'var', id: 'rel-tim', to: 'terms' },
+      { type: 'var', id: 'anatolia-land', to: 'recovering' },
     ],
     outcome: {
       title: 'The humbled Thunderbolt',
@@ -163,6 +197,10 @@ const choices = {
         'Fiction. Historians describe a dispute that involved Timur’s demands over the principalities and over refugee rulers sheltering with Bayezid; the exchange of letters between the two rulers was hostile. ' + FICTION_NOTE,
       sources: ['manz', 'finkel'],
       endYear: 1403,
+      chronicle: [
+        { key: 'ankara', year: 1402, date: '1402', title: 'Bayezid accepts Timur’s terms; no battle is fought', siteId: 'ankara' },
+        { key: 'beyliks', year: 1402, date: '1402', title: 'The principalities are restored by agreement' },
+      ],
       cinematic: {
         template: 'parley',
         terrain: 'steppe',
@@ -195,6 +233,16 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: 5 },
       { type: 'flag', flag: 'reunified' },
       { type: 'flag', flag: 'friendlyToByzantium' },
+      { type: 'var', id: 'ottomans', to: 'reunified' },
+      { type: 'var', id: 'succession', to: 'settled' },
+      { type: 'var', id: 'suleyman', to: 'dead' },
+      { type: 'var', id: 'musa', to: 'dead' },
+      { type: 'var', id: 'mehmed1', to: 'sultan' },
+      { type: 'var', id: 'timur', to: 'dead' },
+      { type: 'var', id: 'timurids', to: 'divided' },
+      { type: 'var', id: 'rel-byz', to: 'calm' },
+      { type: 'var', id: 'rel-tim', to: 'distant' },
+      { type: 'var', id: 'anatolia-land', to: 'recovering' },
     ],
     outcome: {
       title: 'The realm is made whole',
@@ -212,6 +260,12 @@ const choices = {
         'This is what happened. Mehmed’s success is usually explained by a mix of military ability and alliances, including support from Byzantium and Serbia; the detail of these alliances is debated in the scholarship.',
       sources: ['kastritsis', 'imber', 'nicol'],
       endYear: 1413,
+      chronicle: [
+        { key: 'interregnum', year: 1403, date: '1402–1413', title: 'Bayezid’s sons fight the Ottoman civil war', siteId: 'edirne' },
+        { key: 'timur', year: 1405, date: 'February 1405', title: 'Timur dies on his way to campaign against China', siteId: 'samarkand' },
+        { key: 'suleyman', year: 1411, date: '1411', title: 'Süleyman is killed in the civil war', siteId: 'edirne' },
+        { key: 'reunion', year: 1413, date: '1413', title: 'Mehmed I defeats Musa and reunites the realm' },
+      ],
       cinematic: {
         template: 'battle',
         terrain: 'plain',
@@ -244,6 +298,16 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: 15 },
       { type: 'flag', flag: 'reunified' },
       { type: 'flag', flag: 'westwardState' },
+      { type: 'var', id: 'ottomans', to: 'reunified' },
+      { type: 'var', id: 'succession', to: 'settled' },
+      { type: 'var', id: 'suleyman', to: 'sultan' },
+      { type: 'var', id: 'musa', to: 'defeated' },
+      { type: 'var', id: 'mehmed1', to: 'defeated' },
+      { type: 'var', id: 'timur', to: 'dead' },
+      { type: 'var', id: 'timurids', to: 'divided' },
+      { type: 'var', id: 'rel-byz', to: 'peace' },
+      { type: 'var', id: 'rel-tim', to: 'distant' },
+      { type: 'var', id: 'anatolia-land', to: 'recovering' },
     ],
     outcome: {
       title: 'A sultan in Edirne',
@@ -261,6 +325,12 @@ const choices = {
         'Fiction. In reality Süleyman made a treaty with Byzantium and several Western powers in 1403 but was killed in 1411 in the civil war. ' + FICTION_NOTE,
       sources: ['kastritsis', 'nicol'],
       endYear: 1413,
+      chronicle: [
+        { key: 'interregnum', year: 1403, date: '1402–1411', title: 'Bayezid’s sons fight the Ottoman civil war', siteId: 'edirne' },
+        { key: 'timur', year: 1405, date: 'February 1405', title: 'Timur dies on his way to campaign against China', siteId: 'samarkand' },
+        { key: 'suleyman', year: 1411, date: '1411', title: 'Süleyman defeats his brothers', siteId: 'edirne' },
+        { key: 'reunion', year: 1411, date: '1411', title: 'Süleyman reunites the realm from Edirne', siteId: 'edirne' },
+      ],
       cinematic: {
         template: 'battle',
         terrain: 'plain',
@@ -293,6 +363,18 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: -25 },
       { type: 'flag', flag: 'reunified' },
       { type: 'flag', flag: 'hostileToByzantium' },
+      { type: 'var', id: 'ottomans', to: 'reunified' },
+      { type: 'var', id: 'succession', to: 'settled' },
+      { type: 'var', id: 'musa', to: 'sultan' },
+      { type: 'var', id: 'suleyman', to: 'dead' },
+      { type: 'var', id: 'mehmed1', to: 'defeated' },
+      { type: 'var', id: 'timur', to: 'dead' },
+      { type: 'var', id: 'timurids', to: 'divided' },
+      { type: 'var', id: 'rel-byz', to: 'hostile' },
+      { type: 'var', id: 'byzantium', to: 'isolated' },
+      { type: 'var', id: 'straits', to: 'disrupted' },
+      { type: 'var', id: 'rel-tim', to: 'distant' },
+      { type: 'var', id: 'anatolia-land', to: 'recovering' },
     ],
     outcome: {
       title: 'The hostile sultan',
@@ -309,6 +391,12 @@ const choices = {
         'Fiction. In reality Musa was defeated and killed in 1413. ' + FICTION_NOTE,
       sources: ['kastritsis', 'nicol'],
       endYear: 1413,
+      chronicle: [
+        { key: 'interregnum', year: 1403, date: '1402–1413', title: 'Bayezid’s sons fight the Ottoman civil war', siteId: 'edirne' },
+        { key: 'timur', year: 1405, date: 'February 1405', title: 'Timur dies on his way to campaign against China', siteId: 'samarkand' },
+        { key: 'suleyman', year: 1411, date: '1411', title: 'Süleyman is killed in the civil war', siteId: 'edirne' },
+        { key: 'reunion', year: 1413, date: '1413', title: 'Musa defeats Mehmed and reunites the realm' },
+      ],
       cinematic: {
         template: 'battle',
         terrain: 'plain',
@@ -336,6 +424,14 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: -100 },
       { type: 'stat', stat: 'ottomanPower', delta: 20 },
       { type: 'flag', flag: 'constantinopleFallen' },
+      { type: 'var', id: 'byzantium', to: 'fallen' },
+      { type: 'var', id: 'capital', to: 'constantinople' },
+      { type: 'var', id: 'ottomans', to: 'imperial' },
+      { type: 'var', id: 'straits', to: 'ottoman' },
+      { type: 'var', id: 'city-people', to: 'sacked' },
+      { type: 'var', id: 'rel-byz', to: 'ended' },
+      { type: 'var', id: 'constantine', to: 'dead' },
+      { type: 'when', if: { vars: { mehmed2: ['sultan'] } }, then: [{ type: 'var', id: 'mehmed2', to: 'conqueror' }] },
     ],
     outcome: {
       title: 'The City falls',
@@ -353,6 +449,11 @@ const choices = {
         'This is what happened. Reports of the final assault differ in detail, including the role of an unlocked small gate and the timing of Giustiniani’s wound.',
       sources: ['runciman', 'nicol', 'crowley'],
       endYear: 1453,
+      chronicle: [
+        { key: 'city', year: 1453, date: '29 May 1453', title: 'Constantinople falls to the Ottoman assault', siteId: 'constantinople' },
+        { key: 'emperor', year: 1453, date: '29 May 1453', title: 'Constantine XI dies in the fighting', siteId: 'constantinople' },
+        { key: 'capital', year: 1453, date: 'after 1453', title: 'The City becomes the Ottoman capital', siteId: 'constantinople' },
+      ],
       cinematic: {
         template: 'siege',
         terrain: 'coast',
@@ -383,6 +484,9 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: 15 },
       { type: 'stat', stat: 'ottomanPower', delta: -10 },
       { type: 'flag', flag: 'constantinopleHeld' },
+      { type: 'var', id: 'byzantium', to: 'endures' },
+      { type: 'var', id: 'constantine', to: 'holds' },
+      { type: 'when', if: { vars: { mehmed2: ['sultan'] } }, then: [{ type: 'var', id: 'mehmed2', to: 'repulsed' }] },
     ],
     outcome: {
       title: 'One more night',
@@ -399,6 +503,10 @@ const choices = {
         'Fiction. In reality the defence broke. Even a failed assault would not have solved Byzantium’s fundamental weakness: a very small population and no major relief force. ' + FICTION_NOTE,
       sources: ['runciman', 'nicol'],
       endYear: 1453,
+      chronicle: [
+        { key: 'city', year: 1453, date: '29 May 1453', title: 'The assault on Constantinople fails', siteId: 'constantinople' },
+        { key: 'emperor', year: 1453, date: '29 May 1453', title: 'Constantine XI survives the assault', siteId: 'constantinople' },
+      ],
       cinematic: {
         template: 'siege',
         terrain: 'coast',
@@ -418,7 +526,7 @@ const choices = {
   },
   surrenderTerms: {
     id: 'terms',
-    label: 'Accept Mehmed’s terms',
+    label: 'Accept the sultan’s terms',
     summary: 'The emperor yields the City in return for safety for its people.',
     historical: false,
     effects: [
@@ -426,6 +534,14 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: -60 },
       { type: 'stat', stat: 'stability', delta: 10 },
       { type: 'flag', flag: 'constantinopleSurrendered' },
+      { type: 'var', id: 'byzantium', to: 'surrendered' },
+      { type: 'var', id: 'capital', to: 'constantinople' },
+      { type: 'var', id: 'ottomans', to: 'imperial' },
+      { type: 'var', id: 'straits', to: 'ottoman' },
+      { type: 'var', id: 'city-people', to: 'spared' },
+      { type: 'var', id: 'rel-byz', to: 'ended' },
+      { type: 'var', id: 'constantine', to: 'yielded' },
+      { type: 'when', if: { vars: { mehmed2: ['sultan'] } }, then: [{ type: 'var', id: 'mehmed2', to: 'terms' }] },
     ],
     outcome: {
       title: 'The gates are opened',
@@ -442,6 +558,11 @@ const choices = {
         'Fiction. Some accounts say Mehmed II offered terms before the assault and Constantine XI refused. ' + FICTION_NOTE,
       sources: ['runciman', 'crowley'],
       endYear: 1453,
+      chronicle: [
+        { key: 'city', year: 1453, date: 'May 1453', title: 'Constantinople surrenders on terms', siteId: 'constantinople' },
+        { key: 'emperor', year: 1453, date: 'May 1453', title: 'Constantine XI yields the City', siteId: 'constantinople' },
+        { key: 'capital', year: 1453, date: 'after 1453', title: 'The City becomes the Ottoman capital', siteId: 'constantinople' },
+      ],
       cinematic: {
         template: 'parley',
         terrain: 'coast',
@@ -469,6 +590,13 @@ const choices = {
       { type: 'stat', stat: 'byzantineSecurity', delta: -100 },
       { type: 'stat', stat: 'ottomanPower', delta: 10 },
       { type: 'flag', flag: 'constantinopleFallen' },
+      { type: 'var', id: 'byzantium', to: 'fallen' },
+      { type: 'var', id: 'capital', to: 'constantinople' },
+      { type: 'var', id: 'ottomans', to: 'imperial' },
+      { type: 'var', id: 'straits', to: 'ottoman' },
+      { type: 'var', id: 'city-people', to: 'sacked' },
+      { type: 'var', id: 'rel-byz', to: 'ended' },
+      { type: 'var', id: 'bayezid', to: 'conqueror' },
     ],
     outcome: {
       title: 'The City falls early',
@@ -486,6 +614,10 @@ const choices = {
         'Fiction. In reality Ankara lifted the blockade and Byzantium survived until 1453. Bayezid had been blockading the City since the 1390s and had not taken it. ' + FICTION_NOTE,
       sources: ['nicol', 'imber'],
       endYear: 1404,
+      chronicle: [
+        { key: 'city', year: 1403, date: '1403', title: 'Constantinople falls to Bayezid I', siteId: 'constantinople' },
+        { key: 'capital', year: 1404, date: '1404', title: 'Bayezid makes the City his capital', siteId: 'constantinople' },
+      ],
       cinematic: {
         template: 'siege',
         terrain: 'coast',
@@ -502,7 +634,7 @@ const choices = {
         ],
       },
     },
-    next: [{ goto: null }],
+    next: [{ goto: 'anatolia-1405' }],
   },
   lift: {
     id: 'lift',
@@ -512,6 +644,10 @@ const choices = {
     effects: [
       { type: 'stat', stat: 'byzantineSecurity', delta: 25 },
       { type: 'flag', flag: 'peaceWithByzantium' },
+      { type: 'var', id: 'byzantium', to: 'relieved' },
+      { type: 'var', id: 'rel-byz', to: 'peace' },
+      { type: 'var', id: 'straits', to: 'reopened' },
+      { type: 'var', id: 'city-people', to: 'recovering' },
     ],
     outcome: {
       title: 'A truce at the walls',
@@ -528,6 +664,10 @@ const choices = {
         'Fiction. In reality, in 1403 Süleyman Çelebi made a treaty with Byzantium and several Western powers that eased the pressure on Constantinople. ' + FICTION_NOTE,
       sources: ['nicol', 'kastritsis'],
       endYear: 1404,
+      chronicle: [
+        { key: 'treaty', year: 1403, date: '1403', title: 'Bayezid makes peace with Byzantium', siteId: 'constantinople' },
+        { key: 'city', year: 1404, date: '1404', title: 'The blockade ends and the City is spared', siteId: 'constantinople' },
+      ],
       cinematic: {
         template: 'parley',
         terrain: 'coast',
@@ -543,9 +683,325 @@ const choices = {
         ],
       },
     },
+    next: [{ goto: 'anatolia-1405' }],
+  },
+  reconquer: {
+    id: 'reconquer',
+    label: 'Recross the straits and retake Anatolia',
+    summary: 'Bayezid marches against the princes whom Timur restored.',
+    historical: false,
+    effects: [
+      { type: 'control', territory: 'anatolia-central', to: 'ottoman' },
+      { type: 'control', territory: 'anatolia-west', to: 'ottoman' },
+      { type: 'control', territory: 'anatolia-east', to: 'ottoman' },
+      { type: 'control', territory: 'beyliks', to: 'ottoman' },
+      { type: 'stat', stat: 'ottomanPower', delta: 25 },
+      { type: 'stat', stat: 'timuridReach', delta: -25 },
+      { type: 'stat', stat: 'stability', delta: -5 },
+      { type: 'var', id: 'beyliks', to: 'reconquered' },
+      { type: 'var', id: 'anatolia-land', to: 'war' },
+      { type: 'var', id: 'rel-tim', to: 'distant' },
+      { type: 'when', if: { notFlags: ['constantinopleFallen'] }, then: [{ type: 'var', id: 'ottomans', to: 'expanding' }] },
+    ],
+    outcome: {
+      title: 'The Thunderbolt returns',
+      kind: 'fictional',
+      visual: 'An Ottoman army scatters the forces of the restored princes on an Anatolian plain.',
+      immediate: [
+        'Bayezid retakes the Anatolian lands he lost in 1402.',
+        'The princes restored by Timur lose their independence again.',
+      ],
+      longTerm: [
+        'A single Ottoman state spanning Anatolia and the Balkans re-emerges decades earlier than it did in reality.',
+        'The reconquest brings fresh devastation to Anatolia.',
+      ],
+      context:
+        'Fiction. In reality Bayezid died in captivity in 1403, and the Ottomans reabsorbed the Anatolian principalities only gradually over the following decades; Karaman held out until the 1470s. ' + FICTION_NOTE,
+      sources: ['imber', 'finkel'],
+      endYear: 1406,
+      chronicle: [
+        { key: 'timur', year: 1405, date: 'February 1405', title: 'Timur dies on his way to campaign against China', siteId: 'samarkand' },
+        { key: 'reconquest', year: 1406, date: '1406', title: 'Bayezid retakes Anatolia', siteId: 'ankara' },
+      ],
+      cinematic: {
+        template: 'battle',
+        terrain: 'plain',
+        seed: 1405,
+        duration: 18,
+        a: { faction: 'ottoman', count: 120, label: 'Bayezid’s army' },
+        b: { faction: 'beylik', count: 90, label: 'Forces of the restored princes' },
+        result: 'a',
+        captions: [
+          cap(0, 0.28, 'Fiction. With Timur dead, Bayezid crosses back into Anatolia.'),
+          cap(0.28, 0.62, 'The princes’ forces stand against him.'),
+          cap(0.62, 1, 'They are scattered. Anatolia is Ottoman again.'),
+        ],
+      },
+    },
+    next: [{ goto: null }],
+  },
+  balkans: {
+    id: 'balkans',
+    label: 'Stay in Europe and leave Anatolia to the princes',
+    summary: 'Bayezid makes terms with the Anatolian princes and turns to the Balkans.',
+    historical: false,
+    effects: [
+      { type: 'stat', stat: 'stability', delta: 10 },
+      { type: 'stat', stat: 'timuridReach', delta: -10 },
+      { type: 'var', id: 'ottomans', to: 'european' },
+      { type: 'var', id: 'anatolia-land', to: 'recovering' },
+      { type: 'var', id: 'rel-tim', to: 'distant' },
+    ],
+    outcome: {
+      title: 'An empire of Europe',
+      kind: 'fictional',
+      visual: 'Ottoman and Anatolian envoys meet on the plain; both escorts ride away in peace.',
+      immediate: [
+        'The restored principalities keep their independence.',
+        'Bayezid concentrates his power in the Balkans.',
+      ],
+      longTerm: [
+        'An Ottoman state centred in Europe, with Anatolia divided among rival principalities, is imaginable.',
+        'How long such a balance could last is not knowable.',
+      ],
+      context:
+        'Fiction. In reality the Ottoman state recovered its Anatolian lands under Mehmed I and his successors after 1413. ' + FICTION_NOTE,
+      sources: ['imber', 'kastritsis'],
+      endYear: 1406,
+      chronicle: [
+        { key: 'timur', year: 1405, date: 'February 1405', title: 'Timur dies on his way to campaign against China', siteId: 'samarkand' },
+        { key: 'europe', year: 1406, date: '1406', title: 'Bayezid turns his empire towards Europe', siteId: 'edirne' },
+      ],
+      cinematic: {
+        template: 'parley',
+        terrain: 'plain',
+        seed: 1407,
+        duration: 16,
+        a: { faction: 'ottoman', count: 70, label: 'Ottoman envoys and escort' },
+        b: { faction: 'beylik', count: 60, label: 'Envoys of the Anatolian princes' },
+        result: 'agreement',
+        captions: [
+          cap(0, 0.35, 'Fiction. Envoys of the sultan and the princes meet.'),
+          cap(0.35, 0.7, 'Bayezid recognises the princes in Anatolia.'),
+          cap(0.7, 1, 'He turns his attention to Europe.'),
+        ],
+      },
+    },
     next: [{ goto: null }],
   },
 } satisfies Record<string, Choice>
+
+
+/**
+ * World variables. Each value is an authored, qualitative state. The documented values follow the
+ * historical record; any value reached after a timeline diverges is fiction like the rest of it.
+ */
+const SCHEMATIC = 'Schematic game index (0–100), not a measured quantity.'
+const STAT_META: Record<StatId, StatMeta> = {
+  ottomanPower: { label: 'Ottoman power', category: 'country', note: SCHEMATIC },
+  timuridReach: { label: 'Timurid reach', category: 'country', note: SCHEMATIC },
+  byzantineSecurity: { label: 'Byzantine security', category: 'country', note: SCHEMATIC },
+  stability: { label: 'Ottoman stability', category: 'political', note: SCHEMATIC },
+}
+
+const VARS: WorldVar[] = [
+  {
+    id: 'ottomans', label: 'Ottoman state', category: 'country', initial: 'expanding',
+    options: [
+      { id: 'expanding', label: 'Expanding sultanate', tone: 'neutral' },
+      { id: 'shattered', label: 'Shattered: the sultan is captive', tone: 'bad' },
+      { id: 'humbled', label: 'Intact but humbled', tone: 'neutral' },
+      { id: 'reunified', label: 'Reunified under one sultan', tone: 'good' },
+      { id: 'imperial', label: 'Imperial power on the straits', tone: 'good' },
+      { id: 'european', label: 'Sultanate centred in Europe', tone: 'neutral' },
+    ],
+  },
+  {
+    id: 'byzantium', label: 'Byzantine Empire', category: 'country', initial: 'blockaded', siteId: 'constantinople',
+    options: [
+      { id: 'blockaded', label: 'Under Ottoman blockade', tone: 'bad' },
+      { id: 'relieved', label: 'Relieved, under pressure', tone: 'neutral' },
+      { id: 'isolated', label: 'Isolated and threatened', tone: 'bad' },
+      { id: 'besieged', label: 'Under siege', tone: 'bad' },
+      { id: 'fallen', label: 'Conquered', tone: 'bad' },
+      { id: 'surrendered', label: 'Surrendered on terms', tone: 'bad' },
+      { id: 'endures', label: 'Endures', tone: 'good' },
+    ],
+  },
+  {
+    id: 'timurids', label: 'Timurid Empire', category: 'country', initial: 'campaigning', siteId: 'samarkand',
+    options: [
+      { id: 'campaigning', label: 'Campaigning in Anatolia', tone: 'neutral' },
+      { id: 'dominant', label: 'Master of Anatolia', tone: 'good' },
+      { id: 'withdrawn', label: 'Withdrawn to Central Asia', tone: 'neutral' },
+      { id: 'divided', label: 'Contested by Timur’s heirs', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'beyliks', label: 'Anatolian principalities', category: 'country', initial: 'annexed',
+    note: 'Beyliks such as Karaman, annexed by Bayezid in the 1390s.',
+    options: [
+      { id: 'annexed', label: 'Annexed by the Ottomans', tone: 'bad' },
+      { id: 'restored', label: 'Restored to their princes', tone: 'good' },
+      { id: 'reconquered', label: 'Reconquered by the Ottomans', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'capital', label: 'Ottoman seat of power', category: 'political', initial: 'edirne',
+    note: 'Edirne was the main Ottoman seat in Europe by the late 14th century; Bursa remained a royal city. The exact date of the move is debated.',
+    options: [
+      { id: 'edirne', label: 'Edirne', siteId: 'edirne' },
+      { id: 'constantinople', label: 'Constantinople', siteId: 'constantinople' },
+    ],
+  },
+  {
+    id: 'succession', label: 'Ottoman succession', category: 'political', initial: 'reigning',
+    options: [
+      { id: 'reigning', label: 'Bayezid I reigns', tone: 'neutral' },
+      { id: 'contested', label: 'Contested by Bayezid’s sons', tone: 'bad' },
+      { id: 'settled', label: 'Settled under one ruler', tone: 'good' },
+    ],
+  },
+  {
+    id: 'straits', label: 'Trade through the straits', category: 'economy', initial: 'disrupted', siteId: 'constantinople',
+    note: 'Qualitative: who controls passage through the Bosphorus and the Dardanelles, and whether it is disrupted.',
+    options: [
+      { id: 'disrupted', label: 'Disrupted by blockade and war', tone: 'bad' },
+      { id: 'reopened', label: 'Reopened under treaties', tone: 'good' },
+      { id: 'ottoman', label: 'Under Ottoman control', tone: 'neutral' },
+    ],
+  },
+  {
+    id: 'artillery', label: 'Siege artillery', category: 'technology', initial: 'early',
+    note: 'By 1453 the Ottomans used very large cannon against the land walls. In 1402 gunpowder artillery was far less developed.',
+    options: [
+      { id: 'early', label: 'Early gunpowder weapons', tone: 'neutral' },
+      { id: 'bombards', label: 'Great siege bombards', tone: 'neutral' },
+    ],
+  },
+  {
+    id: 'city-people', label: 'People of Constantinople', category: 'population', initial: 'shrunken', siteId: 'constantinople',
+    note: 'Population estimates are uncertain; the City had shrunk greatly since its medieval peak.',
+    options: [
+      { id: 'shrunken', label: 'Much reduced and declining', tone: 'bad' },
+      { id: 'recovering', label: 'Recovering', tone: 'good' },
+      { id: 'spared', label: 'Spared a sack', tone: 'neutral' },
+      { id: 'sacked', label: 'Sacked, then resettled under Ottoman rule', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'anatolia-land', label: 'Anatolian countryside', category: 'population', initial: 'invaded',
+    options: [
+      { id: 'invaded', label: 'Invaded', tone: 'bad' },
+      { id: 'ravaged', label: 'Plundered by Timur’s armies', tone: 'bad' },
+      { id: 'recovering', label: 'Recovering', tone: 'good' },
+      { id: 'war', label: 'Devastated by reconquest', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'bayezid', label: 'Bayezid I', category: 'figure', initial: 'sultan', figure: { faction: 'ottoman', role: 'Ottoman sultan since 1389' },
+    options: [
+      { id: 'sultan', label: 'Sultan' },
+      { id: 'humbled', label: 'Sultan, humbled by Timur', tone: 'neutral' },
+      { id: 'dead', label: 'Died in captivity (1403)', tone: 'bad' },
+      { id: 'conqueror', label: 'Conqueror of Constantinople', tone: 'good' },
+    ],
+  },
+  {
+    id: 'timur', label: 'Timur', category: 'figure', initial: 'campaigning', siteId: 'samarkand', figure: { faction: 'timurid', role: 'Ruler of an empire centred on Samarkand' },
+    options: [
+      { id: 'campaigning', label: 'Campaigning in Anatolia' },
+      { id: 'withdrawn', label: 'Returned to Central Asia', tone: 'neutral' },
+      { id: 'dead', label: 'Died on campaign (1405)', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'suleyman', label: 'Süleyman Çelebi', category: 'figure', initial: 'prince', figure: { faction: 'ottoman', role: 'Eldest son of Bayezid' },
+    options: [
+      { id: 'prince', label: 'Prince' },
+      { id: 'rival', label: 'Rules from Edirne, a rival claimant', tone: 'neutral' },
+      { id: 'sultan', label: 'Sole ruler', tone: 'good' },
+      { id: 'defeated', label: 'Defeated in the civil war', tone: 'bad' },
+      { id: 'dead', label: 'Killed in the civil war (1411)', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'musa', label: 'Musa Çelebi', category: 'figure', initial: 'prince', figure: { faction: 'ottoman', role: 'Son of Bayezid' },
+    options: [
+      { id: 'prince', label: 'Prince' },
+      { id: 'sultan', label: 'Sole ruler', tone: 'good' },
+      { id: 'defeated', label: 'Defeated in the civil war', tone: 'bad' },
+      { id: 'dead', label: 'Killed in the civil war (1413)', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'mehmed1', label: 'Mehmed Çelebi', category: 'figure', initial: 'prince', figure: { faction: 'ottoman', role: 'Son of Bayezid, based in northern Anatolia' },
+    options: [
+      { id: 'prince', label: 'Prince' },
+      { id: 'sultan', label: 'Sultan Mehmed I (from 1413)', tone: 'good' },
+      { id: 'defeated', label: 'Defeated in the civil war', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'mehmed2', label: 'Mehmed II', category: 'figure', initial: 'offstage', hiddenWhen: 'offstage', figure: { faction: 'ottoman', role: 'Grandson of Mehmed I' },
+    options: [
+      { id: 'offstage', label: 'Not yet on the stage' },
+      { id: 'sultan', label: 'Sultan (from 1451)', tone: 'neutral' },
+      { id: 'conqueror', label: 'Conqueror of Constantinople', tone: 'good' },
+      { id: 'repulsed', label: 'Repulsed at the walls', tone: 'bad' },
+      { id: 'terms', label: 'Takes the City on terms', tone: 'good' },
+    ],
+  },
+  {
+    id: 'constantine', label: 'Constantine XI', category: 'figure', initial: 'offstage', hiddenWhen: 'offstage', siteId: 'constantinople', figure: { faction: 'byzantine', role: 'Byzantine emperor' },
+    options: [
+      { id: 'offstage', label: 'Not yet on the stage' },
+      { id: 'emperor', label: 'Emperor (from 1449)', tone: 'neutral' },
+      { id: 'dead', label: 'Died defending the City (1453)', tone: 'bad' },
+      { id: 'holds', label: 'Holds the City', tone: 'good' },
+      { id: 'yielded', label: 'Yields the City on terms', tone: 'bad' },
+    ],
+  },
+  {
+    id: 'rel-byz', label: 'Ottomans and Byzantium', category: 'relation', initial: 'war',
+    options: [
+      { id: 'war', label: 'Hostile: the blockade', tone: 'bad' },
+      { id: 'peace', label: 'Peace by treaty', tone: 'good' },
+      { id: 'calm', label: 'Comparatively calm', tone: 'good' },
+      { id: 'hostile', label: 'Hostile', tone: 'bad' },
+      { id: 'siege', label: 'At war: the final siege', tone: 'bad' },
+      { id: 'ended', label: 'Ended by conquest', tone: 'neutral' },
+    ],
+  },
+  {
+    id: 'rel-tim', label: 'Ottomans and Timurids', category: 'relation', initial: 'war',
+    options: [
+      { id: 'war', label: 'At war', tone: 'bad' },
+      { id: 'recognition', label: 'Bayezid’s sons court Timur’s favour', tone: 'neutral' },
+      { id: 'terms', label: 'Bayezid has accepted Timur’s terms', tone: 'neutral' },
+      { id: 'distant', label: 'No longer in direct conflict', tone: 'good' },
+    ],
+  },
+]
+
+const ENDINGS: Ending[] = [
+  { id: 'as-it-happened', kind: 'historical', title: 'As it happened', when: { allHistorical: true },
+    text: 'You followed the documented course of events from the Battle of Ankara to the fall of Constantinople on 29 May 1453.' },
+  { id: 'thunderbolt', kind: 'fictional', title: 'The Thunderbolt unbroken', when: { flags: ['constantinopleFallen', 'sultanFree'], vars: { beyliks: ['reconquered'] } },
+    text: 'Fiction. Bayezid takes Constantinople fifty years early and wins back Anatolia: an Ottoman empire on the straits, two generations ahead of reality.' },
+  { id: 'european', kind: 'fictional', title: 'A sultanate of Europe', when: { flags: ['constantinopleFallen', 'sultanFree'] },
+    text: 'Fiction. Bayezid rules from Constantinople while Anatolia stays divided among its princes.' },
+  { id: 'peace-east', kind: 'fictional', title: 'Peace in the West, war in the East', when: { flags: ['peaceWithByzantium'], vars: { beyliks: ['reconquered'] } },
+    text: 'Fiction. Byzantium survives under a truce while Bayezid fights to win back Anatolia.' },
+  { id: 'neighbours', kind: 'fictional', title: 'Neighbours at the straits', when: { flags: ['peaceWithByzantium'] },
+    text: 'Fiction. A Byzantine city, a Balkan sultanate and independent Anatolian principalities share an uneasy peace.' },
+  { id: 'walls-held', kind: 'fictional', title: 'The walls held', when: { flags: ['constantinopleHeld'] },
+    text: 'Fiction. The final assault of 1453 fails. The City survives the day, though its weakness remains.' },
+  { id: 'gates-opened', kind: 'fictional', title: 'The gates opened', when: { flags: ['constantinopleSurrendered'] },
+    text: 'Fiction. Constantinople passes to Ottoman rule by agreement, and its people are spared the sack.' },
+  { id: 'same-fate', kind: 'fictional', title: 'Same fate, another road',
+    text: 'Fiction. A different prince won the civil war, yet the City still falls in 1453.' },
+]
 
 export const ANKARA_1402: Scenario = {
   id: 'ankara-1402',
@@ -575,12 +1031,12 @@ export const ANKARA_1402: Scenario = {
     { id: 'timurid-core', name: 'Timurid heartland', lat: 39.6, lng: 66.9, radius: 13, initial: 'timurid', note: 'Timur’s empire, ruled from Samarkand.' },
   ],
   sites: [
-    { id: 'ankara', name: 'Ankara', lat: 39.93, lng: 32.86, blurb: 'Timur besieged the city and met Bayezid’s army nearby on 28 July 1402.' },
-    { id: 'constantinople', name: 'Constantinople', lat: 41.01, lng: 28.98, blurb: 'The Byzantine capital. Ankara lifted the Ottoman blockade. In 1453 it fell to Mehmed II.' },
-    { id: 'edirne', name: 'Edirne (Adrianople)', lat: 41.68, lng: 26.56, blurb: 'The Ottoman capital in Europe, held by Süleyman after Ankara.' },
-    { id: 'bursa', name: 'Bursa', lat: 40.19, lng: 29.06, blurb: 'An early Ottoman capital in Anatolia, plundered after the battle.' },
-    { id: 'sivas', name: 'Sivas', lat: 39.75, lng: 37.02, blurb: 'Taken by Timur in 1400 before his move on Ankara.' },
-    { id: 'samarkand', name: 'Samarkand', lat: 39.65, lng: 66.96, blurb: 'Timur’s capital, in present-day Uzbekistan.' },
+    { id: 'ankara', name: 'Ankara', lat: 39.93, lng: 32.86, labelAt: 'below', blurb: 'Timur besieged the city and met Bayezid’s army nearby on 28 July 1402.' },
+    { id: 'constantinople', name: 'Constantinople', lat: 41.01, lng: 28.98, labelAt: 'above', blurb: 'The Byzantine capital. Ankara lifted the Ottoman blockade. In 1453 it fell to Mehmed II.' },
+    { id: 'edirne', name: 'Edirne (Adrianople)', lat: 41.68, lng: 26.56, labelAt: 'left', blurb: 'The Ottoman capital in Europe, held by Süleyman after Ankara.' },
+    { id: 'bursa', name: 'Bursa', lat: 40.19, lng: 29.06, labelAt: 'below', blurb: 'An early Ottoman capital in Anatolia, plundered after the battle.' },
+    { id: 'sivas', name: 'Sivas', lat: 39.75, lng: 37.02, labelAt: 'right', blurb: 'Taken by Timur in 1400 before his move on Ankara.' },
+    { id: 'samarkand', name: 'Samarkand', lat: 39.65, lng: 66.96, labelAt: 'below', blurb: 'Timur’s capital, in present-day Uzbekistan.' },
   ],
   anchors: [
     { year: 1402, label: 'Ankara' },
@@ -590,6 +1046,13 @@ export const ANKARA_1402: Scenario = {
     { year: 1453, label: 'Fall of Constantinople' },
   ],
   sources: SOURCES,
+  statMeta: STAT_META,
+  vars: VARS,
+  endings: ENDINGS,
+  prelude: [
+    { key: 'blockade', year: 1394, date: '1394–1402', title: 'Bayezid I blockades Constantinople', siteId: 'constantinople' },
+    { key: 'sivas', year: 1400, date: 'August 1400', title: 'Timur takes Sivas', siteId: 'sivas' },
+  ],
   nodes: {
     ankara: {
       id: 'ankara',
@@ -611,6 +1074,7 @@ export const ANKARA_1402: Scenario = {
       situation:
         'Bayezid dies in captivity in 1403. His sons, Süleyman in Edirne, İsa, Mehmed in the north of Anatolia, and Musa, fight over the realm. In 1403 Süleyman has already made a treaty with Byzantium and Western powers that eases the pressure on Constantinople.',
       question: 'Which prince reunites the Ottoman state?',
+      dependsOn: 'Reached because Bayezid was captured at Ankara.',
       choices: [choices.mehmed, choices.suleyman, choices.musa],
     },
     'siege-choice': {
@@ -622,7 +1086,33 @@ export const ANKARA_1402: Scenario = {
       situation:
         'Bayezid is free and his army is intact, but Timur dominates Anatolia. Constantinople has been under Ottoman blockade for years. Emperor Manuel II is in the West seeking help; his nephew John VII governs the City.',
       question: 'Does Bayezid resume the assault on Constantinople?',
+      dependsOn: 'Reached only if Bayezid kept his army at Ankara.',
       choices: [choices.resume, choices.lift],
+    },
+    'anatolia-1405': {
+      id: 'anatolia-1405',
+      title: 'After Timur',
+      dateLabel: '1405',
+      year: 1405,
+      siteId: 'bursa',
+      situation:
+        'In February 1405 Timur dies on his way to campaign against China, as he did in reality. In this timeline Bayezid I is still alive and his army was never destroyed at Ankara. Timur’s heirs are busy with their own struggle, and the princes he restored in Anatolia stand alone.',
+      variants: [
+        { flag: 'constantinopleFallen', text: 'Constantinople is already his, and he rules from the City.' },
+        { flag: 'peaceWithByzantium', text: 'He has made peace with Byzantium; the City remains Byzantine.' },
+      ],
+      question: 'Where does Bayezid turn?',
+      dependsOn: 'Reached only if Bayezid avoided capture at Ankara.',
+      enter: {
+        year: 1405,
+        label: 'Two years pass',
+        effects: [
+          { type: 'var', id: 'timur', to: 'dead' },
+          { type: 'var', id: 'timurids', to: 'divided' },
+          { type: 'stat', stat: 'timuridReach', delta: -20 },
+        ],
+      },
+      choices: [choices.reconquer, choices.balkans],
     },
     'walls-1453': {
       id: 'walls-1453',
@@ -631,12 +1121,24 @@ export const ANKARA_1402: Scenario = {
       year: 1453,
       siteId: 'constantinople',
       situation:
-        'Forty years later, Mehmed II besieges Constantinople. The garrison is a few thousand men against many times their number; the Theodosian Walls are battered by Ottoman cannon. The decisive assault begins before dawn.',
+        'Forty years later, in 1453, an Ottoman army besieges Constantinople. The garrison is a few thousand men against many times their number; the Theodosian Walls are battered by great cannon. The decisive assault begins before dawn on 29 May.',
       variants: [
-        { flag: 'friendlyToByzantium', text: 'Under the Ottoman rulers since 1413, relations with the Byzantine court have been relatively calm.' },
-        { flag: 'westwardState', text: 'In this timeline the 1403 treaty era has endured, and Constantinople has had decades of relative respite.' },
-        { flag: 'hostileToByzantium', text: 'In this timeline Musa’s hostility has left Byzantium wary, isolated and badly short of allies.' },
+        { flag: 'friendlyToByzantium', text: 'As in reality, the besieger is Mehmed II, grandson of Mehmed I. Relations had been calm under Mehmed I, though his son Murad II besieged the City in 1422.' },
+        { flag: 'westwardState', text: 'In this timeline the sultan descends from Süleyman, and the 1403 treaty era has given Constantinople decades of relative respite.' },
+        { flag: 'hostileToByzantium', text: 'In this timeline the sultan descends from Musa, whose hostility has left Byzantium wary, isolated and badly short of allies.' },
       ],
+      dependsOn: 'Byzantine security, shaped by the earlier decisions, decides whether a successful defence is possible.',
+      enter: {
+        year: 1453,
+        label: 'Forty years pass',
+        effects: [
+          { type: 'var', id: 'artillery', to: 'bombards' },
+          { type: 'var', id: 'byzantium', to: 'besieged' },
+          { type: 'var', id: 'rel-byz', to: 'siege' },
+          { type: 'var', id: 'constantine', to: 'emperor' },
+          { type: 'when', if: { allHistorical: true }, then: [{ type: 'var', id: 'mehmed2', to: 'sultan' }] },
+        ],
+      },
       question: 'How does the final assault end?',
       choices: [choices.wallsFall, choices.wallsHold, choices.surrenderTerms],
     },
