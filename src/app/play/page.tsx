@@ -17,6 +17,15 @@ export default function PlayIndex() {
           </Link>
         ))}
       </div>
+      <section className="mt-10 rounded-lg border border-white/10 bg-white/[0.02] p-6">
+        <p className="text-xs uppercase tracking-widest text-gold-400">Also on WHATIF · Grand Strategy</p>
+        <h2 className="mt-1 font-serif text-2xl">Rule the whole world, month by month</h2>
+        <p className="mt-1 text-sm text-parchment/70">
+          A simulation of economy, population, technology, diplomacy and war on historical borders, with eight historical scenarios. After Ankara, try{' '}
+          <Link href="/strategy/scenarios/timur-east" className="text-gold-300 underline hover:text-gold-400">Timur’s Eastern Campaign</Link>: what if Timur had survived 1405?
+        </p>
+        <Link href="/strategy" className="mt-3 inline-block rounded-md border border-gold-500/40 px-4 py-2 text-sm text-gold-300 hover:border-gold-500/80">Open Grand Strategy →</Link>
+      </section>
     </main>
   )
 }

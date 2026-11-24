@@ -1,7 +1,8 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: ['./src/**/*.{ts,tsx}'],
+  // src/strategy has its own theme (tailwind.strategy.config.ts)
+  content: ['./src/{app,components,data,game,lib,server,store}/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {

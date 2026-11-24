@@ -1,0 +1,7 @@
+project_id = "what-if"
+
+[functions.ai-historian]
+verify_jwt = true
+
+[functions.multiplayer-turn]
+verify_jwt = true

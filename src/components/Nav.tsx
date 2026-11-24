@@ -6,6 +6,7 @@ import { useAuth, signOut } from '@/store/auth'
 const LINKS = [
   { href: '/', label: 'World' },
   { href: '/play', label: 'Play' },
+  { href: '/strategy', label: 'Grand Strategy' },
   { href: '/events', label: 'Events' },
   { href: '/create', label: 'Create History' },
   { href: '/timelines', label: 'My Timelines' },
