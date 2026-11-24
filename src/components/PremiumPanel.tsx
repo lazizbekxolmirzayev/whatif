@@ -33,7 +33,7 @@ export default function PremiumPanel() {
         {!user && <p className="mt-4 text-sm text-parchment/60"><Link href="/account" className="underline">Sign in</Link> to manage your plan.</p>}
         {dev && user && (
           <div className="mt-6 border-t border-white/10 pt-4 text-xs text-parchment/50">
-            Development build only: <button className="underline" onClick={() => devSetPlan(isPremium ? 'free' : 'premium')}>{isPremium ? 'switch to Free' : 'simulate Premium for testing'}</button> (hidden in production).
+            Development build only: <button className="underline" onClick={() => void devSetPlan(isPremium ? 'free' : 'premium')}>{isPremium ? 'switch to Free' : 'simulate Premium for testing'}</button> (hidden in production).
           </div>
         )}
       </div>

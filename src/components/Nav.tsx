@@ -13,7 +13,7 @@ const LINKS = [
 
 export default function Nav() {
   const path = usePathname()
-  const { user, isPremium } = useAuth()
+  const { user, isPremium, loading } = useAuth()
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-midnight-950/85 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-6 px-4 py-3 sm:px-6">
@@ -35,13 +35,15 @@ export default function Nav() {
           })}
         </nav>
         <div className="ml-auto flex items-center gap-3 text-sm">
-          {user ? (
+          {loading ? (
+            <span className="h-8 w-20" aria-hidden />
+          ) : user ? (
             <>
               <span className="hidden text-parchment/70 sm:inline">
                 {user.name}
                 {isPremium && <span className="ml-2 text-gold-400">★</span>}
               </span>
-              <button onClick={signOut} className="rounded-md border border-white/10 px-3 py-1.5 text-parchment/80 hover:border-gold-500/40">
+              <button onClick={() => void signOut()} className="rounded-md border border-white/10 px-3 py-1.5 text-parchment/80 hover:border-gold-500/40">
                 Sign out
               </button>
             </>

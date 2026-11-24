@@ -4,16 +4,22 @@ import { EVENT_BY_ID, EVENTS } from '@/data/events'
 import { useAuth } from '@/store/auth'
 import { deleteBranch, useProgress } from '@/store/progress'
 import { FictionalBadge } from './Badges'
-import { EmptyState } from './States'
+import { useState } from 'react'
+import { EmptyState, ErrorState, Spinner } from './States'
 
 export default function Timelines() {
-  const { user } = useAuth()
-  const { visited, scenariosRead, branches } = useProgress(user?.id)
+  const { user, loading } = useAuth()
+  const { visited, scenariosRead, branches, loaded, error } = useProgress(user?.id)
+  const [delError, setDelError] = useState<string | null>(null)
+  if (loading) return <Spinner label="Checking your session…" />
   if (!user) {
     return <EmptyState title="Sign in to see your timelines" hint="Saved timelines and progress belong to your account." action={<Link href="/account" className="rounded-md bg-gold-500 px-4 py-2 text-sm font-medium text-midnight-950">Sign in</Link>} />
   }
+  if (!loaded) return <Spinner label="Loading your timelines…" />
   return (
     <div className="space-y-10">
+      {error && <ErrorState message={error} />}
+      {delError && <ErrorState message={delError} />}
       <section className="grid gap-4 sm:grid-cols-3">
         {[
           ['Events explored', `${visited.length} / ${EVENTS.length}`],
@@ -32,7 +38,7 @@ export default function Timelines() {
           <div className="mt-4"><EmptyState title="Nothing saved yet" hint="Pick a moment in history and change it." action={<Link href="/create" className="rounded-md bg-gold-500 px-4 py-2 text-sm font-medium text-midnight-950">Create your own history</Link>} /></div>
         ) : (
           <ul className="mt-4 space-y-3">
-            {branches.sort((a, b) => b.createdAt - a.createdAt).map((b) => (
+            {[...branches].sort((a, b) => b.createdAt - a.createdAt).map((b) => (
               <li key={b.id} className="rounded-xl border border-white/5 bg-charcoal-900/70 p-5">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
@@ -44,7 +50,11 @@ export default function Timelines() {
                 <p className="mt-2 text-sm text-parchment/75">{b.change}</p>
                 <div className="mt-3 flex gap-4 text-sm">
                   <Link href={`/events/${b.eventId}`} className="text-gold-300 underline">Open on timeline</Link>
-                  <button onClick={() => confirm('Delete this timeline?') && deleteBranch(b.id)} className="text-red-300/80 underline">Delete</button>
+                  <button onClick={async () => {
+                    if (!confirm('Delete this timeline?')) return
+                    const r = await deleteBranch(b.id)
+                    setDelError(r.ok ? null : r.error)
+                  }} className="text-red-300/80 underline">Delete</button>
                 </div>
               </li>
             ))}

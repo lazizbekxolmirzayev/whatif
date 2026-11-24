@@ -53,3 +53,34 @@ export function createPersistentStore<T>(key: string, initial: T) {
   }
   return { get, set, useStore }
 }
+
+/** In-memory store (no persistence) for server-backed state. Same SSR behaviour as the persistent store. */
+export function createMemoryStore<T>(initial: T) {
+  let state = initial
+  const listeners = new Set<() => void>()
+  return {
+    get: () => state,
+    set(next: T) {
+      state = next
+      listeners.forEach((l) => l())
+    },
+    subscribe(l: () => void) {
+      listeners.add(l)
+      return () => {
+        listeners.delete(l)
+      }
+    },
+    useStore(): T {
+      return useSyncExternalStore(
+        (l) => {
+          listeners.add(l)
+          return () => {
+            listeners.delete(l)
+          }
+        },
+        () => state,
+        () => initial,
+      )
+    },
+  }
+}

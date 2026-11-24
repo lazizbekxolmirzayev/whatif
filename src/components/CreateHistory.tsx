@@ -6,18 +6,17 @@ import { EVENTS, EVENT_BY_ID } from '@/data/events'
 import { yearLabel } from '@/lib/format'
 import { useAuth } from '@/store/auth'
 import { saveBranch, useProgress } from '@/store/progress'
+import { FREE_BRANCH_LIMIT, HORIZONS } from '@/lib/limits'
 import type { CustomCharacter } from '@/types'
 import { FictionalBadge } from './Badges'
 
-export const FREE_BRANCH_LIMIT = 3
-const HORIZONS = ['First year', 'First decade', 'Long run']
 const TRAITS = ['Cautious', 'Ambitious', 'Idealistic', 'Ruthless', 'Diplomatic', 'Charismatic', 'Scholarly', 'Devout', 'Reckless', 'Loyal']
 const STEPS = ['Event', 'Change', 'Character', 'Consequences', 'Review']
 
 export default function CreateHistory() {
   const params = useSearchParams()
   const router = useRouter()
-  const { user, isPremium } = useAuth()
+  const { user, isPremium, loading } = useAuth()
   const { branches } = useProgress(user?.id)
 
   const initialEvent = params.get('event')
@@ -27,8 +26,9 @@ export default function CreateHistory() {
   const [title, setTitle] = useState('')
   const [withChar, setWithChar] = useState(false)
   const [char, setChar] = useState<CustomCharacter>({ name: '', role: '', traits: [], motivation: '' })
-  const [ripples, setRipples] = useState(HORIZONS.map((h) => ({ horizon: h, text: '' })))
+  const [ripples, setRipples] = useState<{ horizon: string; text: string }[]>(HORIZONS.map((h) => ({ horizon: h, text: '' })))
   const [error, setError] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
 
   const event = eventId ? EVENT_BY_ID[eventId] : null
   const atLimit = !isPremium && branches.length >= FREE_BRANCH_LIMIT
@@ -50,21 +50,22 @@ export default function CreateHistory() {
     setStep((s) => s + 1)
   }
 
-  function save() {
-    if (!user || !event) return
+  async function save() {
+    if (!user || !event || saving) return
     if (atLimit) return setError(`Free accounts can save up to ${FREE_BRANCH_LIMIT} custom timelines. Delete one or upgrade.`)
     for (let i = 0; i < 4; i++) if (problems[i]) return setError(problems[i])
-    saveBranch({
-      id: crypto.randomUUID(),
-      userId: user.id,
+    setSaving(true)
+    setError(null)
+    const r = await saveBranch({
       eventId: event.id,
-      title: title.trim() || `What if: ${change.trim().slice(0, 48)}`,
+      title: title.trim(),
       change: change.trim(),
       character: withChar ? { ...char, name: char.name.trim(), role: char.role.trim() } : null,
       ripples: ripples.filter((r) => r.text.trim()),
-      createdAt: Date.now(),
     })
-    router.push('/timelines')
+    setSaving(false)
+    if (r.ok) router.push('/timelines')
+    else setError(r.error)
   }
 
   return (
@@ -167,7 +168,7 @@ export default function CreateHistory() {
             <ul className="mt-4 space-y-2 text-sm text-parchment/80">
               {ripples.filter((r) => r.text.trim()).map((r) => <li key={r.horizon}><b className="text-gold-300">{r.horizon}:</b> {r.text}</li>)}
             </ul>
-            {!user && (
+            {!user && !loading && (
               <p className="mt-5 rounded-md border border-gold-500/30 bg-gold-500/5 px-3 py-2 text-sm text-gold-300">
                 <Link href="/account" className="underline">Sign in</Link> to save this timeline. Your draft stays on this page meanwhile.
               </p>
@@ -183,7 +184,7 @@ export default function CreateHistory() {
           {step < 4 ? (
             <button onClick={next} className="rounded-md bg-gold-500 px-5 py-2 text-sm font-medium text-midnight-950 hover:bg-gold-400">Continue</button>
           ) : (
-            <button onClick={save} disabled={!user || atLimit} className="rounded-md bg-gold-500 px-5 py-2 text-sm font-medium text-midnight-950 hover:bg-gold-400 disabled:cursor-not-allowed disabled:opacity-40">Save timeline</button>
+            <button onClick={save} disabled={!user || atLimit || saving} className="rounded-md bg-gold-500 px-5 py-2 text-sm font-medium text-midnight-950 hover:bg-gold-400 disabled:cursor-not-allowed disabled:opacity-40">{saving ? 'Saving…' : 'Save timeline'}</button>
           )}
         </div>
       </div>
