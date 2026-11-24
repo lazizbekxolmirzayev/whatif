@@ -27,7 +27,7 @@ npm test           # validates src/data/events.ts
 - **No backend.** Accounts, progress and saved timelines live in `localStorage`. They do not sync across devices. Password hashing here is not a substitute for server-side auth.
 - **No payments.** The Subscribe button is disabled; nothing can unlock Premium in production. A dev-only toggle exists under `NODE_ENV !== 'production'` for testing gating.
 - **No AI generation.** Scenarios are hand-written and clearly labelled fictional. AI co-writing and cinematic video are shown as "not available yet".
-- **10 events** are included; the long-term target is 1000+. Add events in `src/data/events.ts` (`npm test` checks structure).
+- **20 events** are included; the long-term target is 1000+. Add events in `src/data/events.ts` (`npm test` checks structure; extra batch in `src/data/events-extra.ts`).
 
 ## Content rules
 `summary`, `verifiedFacts`, `pivot.actual` and `factors` must describe documented history; where historians disagree, say so. Everything in `scenarios` is speculation. Do not invent quotations or sources.

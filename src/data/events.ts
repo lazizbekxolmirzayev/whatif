@@ -1,4 +1,5 @@
 import type { HistoricalEvent } from '../types'
+import { EXTRA_EVENTS } from './events-extra.ts'
 
 /**
  * Editorial rules for this file:
@@ -6,7 +7,7 @@ import type { HistoricalEvent } from '../types'
  *  - `scenarios` are fiction. They are rendered with a "Fictional" badge everywhere.
  *  - No quotations or source citations are invented. Where historians disagree, the text says so.
  */
-export const EVENTS: HistoricalEvent[] = [
+const BASE_EVENTS: HistoricalEvent[] = [
   {
     id: 'caesar-ides-of-march',
     title: 'Assassination of Julius Caesar',
@@ -623,6 +624,8 @@ export const EVENTS: HistoricalEvent[] = [
     ],
   },
 ]
+
+export const EVENTS: HistoricalEvent[] = [...BASE_EVENTS, ...EXTRA_EVENTS]
 
 export const EVENT_BY_ID: Record<string, HistoricalEvent> = Object.fromEntries(EVENTS.map((e) => [e.id, e]))
 export const REGIONS = Array.from(new Set(EVENTS.map((e) => e.region))).sort()
